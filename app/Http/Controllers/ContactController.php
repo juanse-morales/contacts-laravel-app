@@ -24,6 +24,36 @@ class ContactController extends Controller
         return response()->json($filteredContacts, 200);
     }
 
+    public function getArchived() {
+        $contactsAll = Contact::all();
+
+        $filteredContacts = collect($contactsAll)->filter(function($item) {
+            return $item['is_archived'] == 1;
+        })->values()->all();
+
+        return response()->json($filteredContacts, 200);
+    }
+
+    public function getBlocked() {
+        $contactsAll = Contact::all();
+
+        $filteredContacts = collect($contactsAll)->filter(function($item) {
+            return $item['is_blocked'] == 1;
+        })->values()->all();
+
+        return response()->json($filteredContacts, 200);
+    }
+
+    public function getDeleted() {
+        $contactsAll = Contact::all();
+
+        $filteredContacts = collect($contactsAll)->filter(function($item) {
+            return $item['is_deleted'] == 1;
+        })->values()->all();
+
+        return response()->json($filteredContacts, 200);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

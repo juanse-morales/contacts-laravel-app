@@ -6,6 +6,12 @@ use App\Http\Controllers\ContactController;
 
 Route::get('/contact', [ContactController::class, 'index']);
 
+Route::get('/contact/archived', [ContactController::class, 'getArchived']);
+
+Route::get('/contact/blocked', [ContactController::class, 'getBlocked']);
+
+Route::get('/contact/deleted', [ContactController::class, 'getDeleted']);
+
 Route::get('/contact/{id}', [ContactController::class, 'show']);
 
 Route::post('/contact', [ContactController::class, 'store']);
