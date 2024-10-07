@@ -4,13 +4,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
 
-Route::get('/contact', [ContactController::class, 'index']);
+Route::get('/contact/index/{filter}', [ContactController::class, 'index']);
 
-Route::get('/contact/archived', [ContactController::class, 'getArchived']);
+Route::get('/contact/archived/{filter}', [ContactController::class, 'getArchived']);
 
-Route::get('/contact/blocked', [ContactController::class, 'getBlocked']);
+Route::get('/contact/blocked/{filter}', [ContactController::class, 'getBlocked']);
 
-Route::get('/contact/deleted', [ContactController::class, 'getDeleted']);
+Route::get('/contact/deleted/{filter}', [ContactController::class, 'getDeleted']);
 
 Route::get('/contact/{id}', [ContactController::class, 'show']);
 

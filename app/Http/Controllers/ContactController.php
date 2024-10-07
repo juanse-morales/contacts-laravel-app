@@ -13,45 +13,57 @@ class ContactController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($filter)
     {
-        $contactsAll = Contact::all();
+        $filter = $filter == 'null' ? '' : $filter;
+        $contactsAll = Contact::where("is_active", 1)
+        ->where(function($query) use ($filter) {
+            $query->where("name", "LIKE", "%$filter%")
+            ->orWhere("last_name", "LIKE", "%$filter%")
+            ->orWhere("phone_number", "LIKE", "%$filter%")
+            ->orWhere("email", "LIKE", "%$filter%");
+        })->get();
 
-        $filteredContacts = collect($contactsAll)->filter(function($item) {
-            return $item['is_active'] == 1;
-        })->values()->all();
-
-        return response()->json($filteredContacts, 200);
+        return response()->json($contactsAll, 200);
     }
 
-    public function getArchived() {
-        $contactsAll = Contact::all();
+    public function getArchived($filter) {
+        $filter = $filter == 'null' ? '' : $filter;
+        $contactsAll = Contact::where("is_archived", 1)
+        ->where(function($query) use ($filter) {
+            $query->where("name", "LIKE", "%$filter%")
+            ->orWhere("last_name", "LIKE", "%$filter%")
+            ->orWhere("phone_number", "LIKE", "%$filter%")
+            ->orWhere("email", "LIKE", "%$filter%");
+        })->get();
 
-        $filteredContacts = collect($contactsAll)->filter(function($item) {
-            return $item['is_archived'] == 1;
-        })->values()->all();
-
-        return response()->json($filteredContacts, 200);
+        return response()->json($contactsAll, 200);
     }
 
-    public function getBlocked() {
-        $contactsAll = Contact::all();
+    public function getBlocked($filter) {
+        $filter = $filter == 'null' ? '' : $filter;
+        $contactsAll = Contact::where("is_blocked", 1)
+        ->where(function($query) use ($filter) {
+            $query->where("name", "LIKE", "%$filter%")
+            ->orWhere("last_name", "LIKE", "%$filter%")
+            ->orWhere("phone_number", "LIKE", "%$filter%")
+            ->orWhere("email", "LIKE", "%$filter%");
+        })->get();
 
-        $filteredContacts = collect($contactsAll)->filter(function($item) {
-            return $item['is_blocked'] == 1;
-        })->values()->all();
-
-        return response()->json($filteredContacts, 200);
+        return response()->json($contactsAll, 200);
     }
 
-    public function getDeleted() {
-        $contactsAll = Contact::all();
+    public function getDeleted($filter) {
+        $filter = $filter == 'null' ? '' : $filter;
+        $contactsAll = Contact::where("is_deleted", 1)
+        ->where(function($query) use ($filter) {
+            $query->where("name", "LIKE", "%$filter%")
+            ->orWhere("last_name", "LIKE", "%$filter%")
+            ->orWhere("phone_number", "LIKE", "%$filter%")
+            ->orWhere("email", "LIKE", "%$filter%");
+        })->get();
 
-        $filteredContacts = collect($contactsAll)->filter(function($item) {
-            return $item['is_deleted'] == 1;
-        })->values()->all();
-
-        return response()->json($filteredContacts, 200);
+        return response()->json($contactsAll, 200);
     }
 
     /**

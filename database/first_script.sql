@@ -27,3 +27,5 @@ drop table contact;
 truncate table migrations;
 
 select * from migrations;
+
+select * from contact where (name LIKE "%%" and last_name LIKE "%%" and phone_number LIKE "%30%" and email LIKE "%%");
