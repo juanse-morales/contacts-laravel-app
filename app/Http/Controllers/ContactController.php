@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Contact;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class ContactController extends Controller
 {
@@ -14,8 +15,13 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $contacts = Contact::all();
-        return response()->json($contacts, 200);
+        $contactsAll = Contact::all();
+
+        $filteredContacts = collect($contactsAll)->filter(function($item) {
+            return $item['is_active'] == 1;
+        })->values()->all();
+
+        return response()->json($filteredContacts, 200);
     }
 
     /**
@@ -146,10 +152,99 @@ class ContactController extends Controller
             return response()->json($data, 404);
         }
         
-        $contact->delete();
+        $contact->is_active = 0;
+        $contact->is_deleted = 1;
+
+        $contact->save();
 
         $data = [
             'message' => 'Contact deleted',
+            'status' => 200
+        ];
+
+        return response()->json($data, 200);
+    }
+
+    /**
+     * Update the specified resource from storage to Blocked.
+     */
+    public function block(string $id) {
+        $contact = Contact::find($id);
+
+        if (!$contact) {
+            $data = [
+                'message' => 'Contact not found',
+                'status' => 404
+            ];
+            return response()->json($data, 404);
+        }
+
+        $contact->is_active = 0;
+        $contact->is_blocked = 1;
+
+        $contact->save();
+
+        $data = [
+            'message' => 'Contact updated',
+            'auto' => $contact,
+            'status' => 200
+        ];
+
+        return response()->json($data, 200);
+    }
+
+    /**
+     * Update the specified resource from storage to Archived.
+     */
+    public function archive(string $id) {
+        $contact = Contact::find($id);
+
+        if (!$contact) {
+            $data = [
+                'message' => 'Contact not found',
+                'status' => 404
+            ];
+            return response()->json($data, 404);
+        }
+
+        $contact->is_active = 0;
+        $contact->is_archived = 1;
+
+        $contact->save();
+
+        $data = [
+            'message' => 'Contact updated',
+            'auto' => $contact,
+            'status' => 200
+        ];
+
+        return response()->json($data, 200);
+    }
+
+    /**
+     * Update the specified resource from storage to Active.
+     */
+    public function restore(string $id) {
+        $contact = Contact::find($id);
+
+        if (!$contact) {
+            $data = [
+                'message' => 'Contact not found',
+                'status' => 404
+            ];
+            return response()->json($data, 404);
+        }
+
+        $contact->is_active = 1;
+        $contact->is_blocked = 0;
+        $contact->is_deleted = 0;
+        $contact->is_archived = 0;
+
+        $contact->save();
+
+        $data = [
+            'message' => 'Contact updated',
+            'auto' => $contact,
             'status' => 200
         ];
 
