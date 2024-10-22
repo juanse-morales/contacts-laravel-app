@@ -172,7 +172,7 @@ class ContactController extends Controller
 
         $data = [
             'message' => 'Contact updated',
-            'auto' => $contact,
+            'contact' => $contact,
             'status' => 200
         ];
 
@@ -228,7 +228,7 @@ class ContactController extends Controller
 
         $data = [
             'message' => 'Contact updated',
-            'auto' => $contact,
+            'contact' => $contact,
             'status' => 200
         ];
 
@@ -256,7 +256,7 @@ class ContactController extends Controller
 
         $data = [
             'message' => 'Contact updated',
-            'auto' => $contact,
+            'contact' => $contact,
             'status' => 200
         ];
 
@@ -286,7 +286,7 @@ class ContactController extends Controller
 
         $data = [
             'message' => 'Contact updated',
-            'auto' => $contact,
+            'contact' => $contact,
             'status' => 200
         ];
 

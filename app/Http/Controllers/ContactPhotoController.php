@@ -82,7 +82,6 @@ class ContactPhotoController extends Controller
 
         // Create new file with identifier
         $date = $this->getDateFormatted();
-        //$new_file = strtoupper($filename). ' '. $date. '.'. strtolower($file_extension);
         $new_filename = 'CONTACTPHOTO' . '_' . $id . '_' . $date . '.' . strtolower($file_extension);
 
         $tempFile = $files;
