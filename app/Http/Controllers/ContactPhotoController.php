@@ -73,6 +73,9 @@ class ContactPhotoController extends Controller
     if (count($request->files) > 0) {
       // If any of files exist then we save them
       $archivos = array();
+      $found_contact_photo_list = array();
+      $contact_photo_created = "";
+
       foreach ($request->files as $files) {
         $original_name  = $files->getClientOriginalName();
         
@@ -90,15 +93,25 @@ class ContactPhotoController extends Controller
         $fecha_creacion = now();
         $archivos[] = $file;
         
+        $found_contact_photo_list = ContactPhoto::where('contact_id', $id)->where('operation', 'created')->get();
+
+        if (count($found_contact_photo_list) > 0) {
+          foreach ($found_contact_photo_list as $photo) {
+            $contact_photo = ContactPhoto::find($photo->id);
+            $contact_photo->operation = 'updated';
+            $contact_photo->save();
+          }
+        }
+
         $values = array(
           'contact_id' => $id,
           'original_filename' => $original_name,
           'new_filename' => $new_filename,
-          'uploaded_date' => $fecha_creacion
+          'uploaded_date' => $fecha_creacion,
+          'operation' => 'created'
         );
         
-        $contact_photo = ContactPhoto::create($values);
-
+        $contact_photo_created = ContactPhoto::create($values);
         
         move_uploaded_file($tempFile, $file);
       }
@@ -106,7 +119,9 @@ class ContactPhotoController extends Controller
       $data = [
         "message" => "Uploaded files to success",
         "status" => 201,
-        "files" => $archivos
+        "files" => $archivos,
+        "photos" => $found_contact_photo_list,
+        "loaded_photo" => $contact_photo_created
       ];
       
       return response()->json($data, 201);
@@ -136,7 +151,7 @@ class ContactPhotoController extends Controller
 
 
   public function get_filename($id) {
-    $contact = ContactPhoto::where('contact_id', $id)->get();
+    $contact = ContactPhoto::where('contact_id', $id)->where('operation', 'created')->get();
     if (count($contact) > 0) {
       return response()->make($contact[0]->new_filename, 200);
     } else {
