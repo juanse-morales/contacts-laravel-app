@@ -21,3 +21,4 @@ yarn-error.log
 /.zed
 
 storage/contactphotos/
+storage/contactfiles/
