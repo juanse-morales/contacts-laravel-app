@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('photo_contact', function (Blueprint $table) {
+        Schema::create('contact_photo', function (Blueprint $table) {
             $table->id();
             $table->string('filename', 100)->default('contactphoto');
             $table->integer('contact_id')->default(0);
