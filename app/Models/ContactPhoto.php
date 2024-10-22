@@ -12,8 +12,9 @@ class ContactPhoto extends Model
     protected $table = 'contact_photo';
 
     protected $fillable = [
-        'filename',
+        'original_filename',
+        'new_filename',
         'contact_id',
-        'uploaded_data'
+        'uploaded_date'
     ];
 }
