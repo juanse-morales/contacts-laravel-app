@@ -75,7 +75,7 @@ class ContactFileController extends Controller
     if (count($request->files) > 0) {
       // If any of files exist then we save them
       $archivos = array();
-      $contact_file_created = "";
+      $contact_file_created = array();
 
       foreach ($request->files as $files) {
         $original_name  = $files->getClientOriginalName();
@@ -100,7 +100,7 @@ class ContactFileController extends Controller
           'new_filename' => $new_filename
         );
         
-        $contact_file_created = ContactFile::create($values);
+        $contact_file_created[] = ContactFile::create($values);
         
         move_uploaded_file($tempFile, $file);
       }
@@ -109,7 +109,7 @@ class ContactFileController extends Controller
         "message" => "Uploaded files to success",
         "status" => 201,
         "files" => $archivos,
-        "loaded_file" => $contact_file_created
+        "loaded_files" => $contact_file_created
       ];
       
       return response()->json($data, 201);
