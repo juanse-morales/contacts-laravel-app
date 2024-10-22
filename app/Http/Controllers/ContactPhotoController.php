@@ -134,4 +134,14 @@ class ContactPhotoController extends Controller
     $fileContents = file_get_contents($filePath);
     return $fileContents;
   }
+
+
+  public function get_filename($id) {
+    $contact = ContactPhoto::where('contact_id', $id)->get();
+    if (count($contact) > 0) {
+      return response()->make($contact[0]->new_filename, 200);
+    } else {
+      return response()->make("", 200);
+    }
+  }
 }

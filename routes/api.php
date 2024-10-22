@@ -22,4 +22,5 @@ Route::group(['prefix' => 'contact'], function() {
 Route::group(['prefix' => 'photo'], function() {
   Route::post('upload/{id}', [ContactPhotoController::class, 'upload_photo']);
   Route::get('view/{filename}', [ContactPhotoController::class, 'view_photo']);
+  Route::get('getfilename/{id}', [ContactPhotoController::class, 'get_filename']);
 });
