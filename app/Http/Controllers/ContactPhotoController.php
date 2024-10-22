@@ -13,9 +13,11 @@ class ContactPhotoController extends Controller
   /**
    * Display a listing of the resource.
    */
-  public function index()
+  public function index_by_contact($contact_id)
   {
-    //
+    $contact_photo_all = ContactPhoto::where('contact_id', $contact_id)->get();
+    
+    return response()->json($contact_photo_all, 200);
   }
 
   /**
