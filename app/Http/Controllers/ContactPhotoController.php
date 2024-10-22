@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Models\ContactPhoto;
 
+use Carbon\Carbon;
+
 class ContactPhotoController extends Controller
 {
     /**
@@ -67,11 +69,11 @@ class ContactPhotoController extends Controller
     /**
      * Endpoint for uploading contact photo file
      */
-    public function upload_photo(string $id) {
-      if (count(request()->photo) > 0) {
+    public function upload_photo(Request $request, string $id) {
+      if (count($request->files) > 0) {
         // If any of files exist then we save them
         $archivos = array();
-        foreach (request()->photo as $files) {
+        foreach ($request->files as $files) {
           $original_name  = $files->getClientOriginalName();
           
           // Split filename of its extension
@@ -84,17 +86,16 @@ class ContactPhotoController extends Controller
           $new_filename = 'CONTACTPHOTO' . '_' . $id . '_' . $date . '.' . strtolower($file_extension);
 
           $tempFile = $files;
-          $filepath = storage_path('files/');
+          $filepath = storage_path('contactphotos/');
           $file = $filepath . $new_filename;
           $fecha_creacion = now();
           $archivos[] = $file;
           
           $values = array(
-            'contact_id' => request()->id_municipio_libreta,
+            'contact_id' => $id,
             'original_filename' => $original_name,
             'new_filename' => $new_filename,
-            'uploaded_data' => $fecha_creacion,
-            'ID_USUARIO' => request()->id_usuario
+            'uploaded_date' => $fecha_creacion
           );
           
           $contact_photo = ContactPhoto::create($values);
