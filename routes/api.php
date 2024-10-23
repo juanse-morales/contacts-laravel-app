@@ -31,5 +31,6 @@ Route::group(['prefix' => 'file'], function() {
   Route::post('upload/{id}', [ContactFileController::class, 'upload_file']);
   Route::get('view/{filename}', [ContactFileController::class, 'view_file']);
   Route::get('getfilename/{id}', [ContactFileController::class, 'get_filename']);
+  Route::get('getoriginalfilename/{id}', [ContactFileController::class, 'get_original_filename']);
   Route::get('index/{contactid}', [ContactFileController::class, 'index_by_contact']);
 });

@@ -146,4 +146,13 @@ class ContactFileController extends Controller
       return response()->make("", 200);
     }
   }
+
+  public function get_original_filename($id) {
+    $contact = ContactFile::where('contact_id', $id)->get();
+    if (count($contact) > 0) {
+      return response()->make($contact[0]->original_filename, 200);
+    } else {
+      return response()->make("", 200);
+    }
+  }
 }
