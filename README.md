@@ -7,5 +7,5 @@ PHP Laravel project set up as API REST to solve the request incoming from Contac
 Download and Install packages
 `composer install`
 
-Run command:
+Run PHP serve:
 `php artisan serve`
